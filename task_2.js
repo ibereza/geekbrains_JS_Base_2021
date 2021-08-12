@@ -6,5 +6,5 @@
 
 let admin, name;
 name = 'Василий';
-admin = name
+admin = name;
 console.log(admin);
