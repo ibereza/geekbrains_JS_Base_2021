@@ -4,3 +4,7 @@
 Скопировать значение из name в admin.
 Вывести admin(должно вывести «Василий»). */
 
+let admin, name;
+name = 'Василий';
+admin = name
+console.log(admin);
