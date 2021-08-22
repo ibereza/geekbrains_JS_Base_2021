@@ -9,7 +9,7 @@
 
 function numberToObject(num) {
     const numObj = {};
-    if (num < 0 || num > 999) {
+    if (isNaN(num) || num < 0 || num > 999) {
         console.log('Число должно быть в диапазоне от 0 до 999');
         return numObj;
     }
