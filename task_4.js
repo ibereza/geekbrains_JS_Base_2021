@@ -8,9 +8,13 @@ xxxx
 xxxxx
 */
 
-let sign = 'x';
+let pyramid = '';
 
-for (let i = 0; i < 20; i++) {
-    console.log(sign);
-    sign += 'x';
+for (let i = 1; i <= 20; i++) {
+    for (let j = 0; j < i; j++) {
+        pyramid += 'x';
+    }
+    pyramid += '\n';
 }
+
+console.log(pyramid);
