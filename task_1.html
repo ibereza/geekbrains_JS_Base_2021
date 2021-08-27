@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шахматная доска</title>
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+            margin: auto;
+        }
+
+        td {
+            border: 2px solid black;
+            padding: 30px;
+        }
+
+        .black {
+            background-color: black;
+        }
+
+        .white {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        function createChessBoard() {
+            let table = document.createElement('table');
+            let tbody = document.createElement('tbody');
+            let tr = document.createElement('tr');
+            let th = document.createElement('th');
+
+            // формирую верхнюю надпись с буквами
+            tr.appendChild(th);
+            for (let i = 65; i < 73; i++) {
+                th = document.createElement('th');
+                th.textContent = String.fromCharCode(i);
+                tr.appendChild(th);
+            }
+            tbody.appendChild(tr);
+
+            // формирую остальные строки 
+            for (let i = 0; i < 8; i++) {
+                tr = document.createElement('tr');
+                th = document.createElement('th');
+                th.textContent = 8 - i;
+                tr.appendChild(th);
+                for (let j = 0; j < 8; j++) {
+                    let td = document.createElement('td');
+                    if (i % 2 === j % 2) {
+                        td.className = 'white';
+                    } else {
+                        td.className = 'black';
+                    }
+                    tr.appendChild(td);
+                }
+                tbody.appendChild(tr);
+            }
+
+            table.appendChild(tbody);
+            document.body.prepend(table);
+        }
+
+        createChessBoard();
+    </script>
+</body>
+
+</html>

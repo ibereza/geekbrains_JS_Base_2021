@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина покупок</title>
+</head>
+
+<body>
+    <script>
+        const basket = {
+            products: [
+                {
+                    product: 'product_1',
+                    count: 5,
+                    price: 25
+                },
+                {
+                    product: 'product_2',
+                    count: 7,
+                    price: 33
+                },
+                {
+                    product: 'product_3',
+                    count: 3,
+                    price: 123
+                }
+            ],
+            countBasketPrice() {
+                return this.products.reduce(((sum, item) => sum + item.count * item.price), 0);
+            },
+            countProducts() {
+                let count = 0;
+                for (item of this.products) {
+                    count += item.count;
+                }
+                return count;
+            }
+        };
+
+        let div = document.createElement('div');
+        const price = basket.countBasketPrice();
+        if (price === 0) {
+            div.textContent = 'Корзина пуста';
+        } else {
+            div.textContent = `В корзине: ${basket.countProducts()} товаров на сумму ${price} рублей`;
+        }
+
+        document.body.prepend(div);
+    </script>
+</body>
+
+</html>
