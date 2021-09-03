@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Товары и корзина</title>
+</head>
+
+<body>
+    <div class="catalog"></div>
+    <hr>
+    <div class="basket"></div>
+
+    <script>
+        const shop = {
+            catalog: [
+                {
+                    product: 'Левый Ботинок',
+                    count: 5,
+                    price: 25
+                },
+                {
+                    product: 'Правый Ботинок',
+                    count: 5,
+                    price: 25
+                },
+                {
+                    product: 'Шнурки',
+                    count: 4,
+                    price: 1
+                }
+            ],
+            basket: [
+                {
+                    product: 'Шнурки',
+                    count: 1,
+                    price: 1
+                }
+            ],
+
+            countBasketPrice() {
+                return this.basket.reduce(((sum, item) => sum + item.count * item.price), 0);
+            },
+
+            countBasketProducts() {
+                let count = 0;
+                for (const item of this.basket) {
+                    count += item.count;
+                }
+                return count;
+            },
+
+            renderCatalog() {
+                document.querySelector('.catalog').innerHTML = '';
+                let h2 = document.createElement('h2');
+                h2.classList.add('catalog_header');
+                h2.innerText = 'Каталог';
+                document.querySelector('.catalog').append(h2);
+                this.catalog.forEach(item => {
+                    let h3 = document.createElement('h3');
+                    h3.classList.add('product_name');
+                    h3.textContent = item.product;
+                    document.querySelector('.catalog').append(h3);
+
+                    let p = document.createElement('p');
+                    p.classList.add('product_price');
+                    p.textContent = `${item.price} $`;
+                    document.querySelector('.catalog').append(p);
+
+                    let button = document.createElement('button');
+                    button.classList.add('product_button');
+                    button.textContent = 'В корзину';
+                    document.querySelector('.catalog').append(button);
+                });
+            },
+
+            renderBasket() {
+                document.querySelector('.basket').innerHTML = '';
+                let h2 = document.createElement('h2');
+                h2.classList.add('basket_header');
+                h2.innerText = 'Корзина';
+                document.querySelector('.basket').append(h2);
+                this.basket.forEach(item => {
+                    let h3 = document.createElement('h3');
+                    h3.classList.add('product_name');
+                    h3.textContent = item.product;
+                    document.querySelector('.basket').append(h3);
+
+                    let p = document.createElement('p');
+                    p.classList.add('product_price');
+                    p.textContent = `${item.price} $`;
+                    document.querySelector('.basket').append(p);
+
+                    p = document.createElement('p');
+                    p.classList.add('product_count');
+                    p.textContent = `${item.count} шт.`;
+                    document.querySelector('.basket').append(p);
+                });
+                let p = document.createElement('p');
+                p.textContent = `В корзине товаров: ${this.countBasketProducts()} шт. на сумму: ${this.countBasketPrice()} $`;
+                document.querySelector('.basket').append(p);
+            },
+
+            clickButton() {
+                document.querySelector('.catalog').addEventListener('click', e => {
+                    e.preventDefault();
+                    if (e.target.tagName === 'BUTTON') {
+                        let productName = e.target.previousElementSibling.previousElementSibling.innerText;
+                        let inBasket = false;
+                        this.catalog.forEach((item, i) => {
+                            if (item.product === productName) {
+                                item.count -= 1;
+                                this.basket.forEach(item => {
+                                    if (item.product === productName) {
+                                        item.count += 1;
+                                        inBasket = true;
+                                    }
+                                });
+                                if (!inBasket) {
+                                    this.basket.push({
+                                        product: productName,
+                                        count: 1,
+                                        price: this.catalog[i].price
+                                    });
+                                } else {
+                                    inBasket = false;
+                                }
+                                this.renderBasket();
+                                if (item.count === 0) {
+                                    delete this.catalog[i];
+                                    this.renderCatalog();
+                                }
+                            }
+                        });
+                    }
+                });
+            },
+
+            run() {
+                this.renderCatalog();
+                this.renderBasket();
+                this.clickButton();
+            }
+        };
+
+        shop.run();
+
+    </script>
+</body>
+
+</html>
